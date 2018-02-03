@@ -1,5 +1,6 @@
 package GUI;
 
+import Logic.SettingsControl;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ public class SessionScreenController {
     static int width = CentralGUIControl.DEFAULT_WIDTH, height = CentralGUIControl.DEFAULT_HEIGHT;
     public Button backToMainButton;
     public Label timeDisplay;
+    public Button pauseButton;
     private boolean countingDown = false;
     private int secondsLeft = 200;
     private Timeline timeline;
@@ -55,8 +57,6 @@ public class SessionScreenController {
         return timeline;
     }
 
-
-
     public void handleBackButtonClick(ActionEvent actionEvent) {
         Main.showStartScreen();
     }
@@ -84,9 +84,53 @@ public class SessionScreenController {
 
         if (countingDown){
             timeline.stop();
+            pauseButton.setText("Play");
         } else {
             timeline.play();
+            pauseButton.setText("Pause");
         }
         countingDown = !countingDown;
+    }
+
+    public void handleTomatoButtonClick(ActionEvent actionEvent) {
+        //TODO: Set the time to the work time (as gotten from the settings) and start counting down
+        secondsLeft = SettingsControl.getInstance().getPomodoroMinutes() * 60;
+        String minutes = Integer.toString(secondsLeft/60);
+        String seconds = Integer.toString(secondsLeft%60);
+        if (secondsLeft/60 < 10){
+            minutes = "0" + minutes;
+        }
+        if (secondsLeft%60 < 10){
+            seconds = "0" + seconds;
+        }
+        timeDisplay.setText(minutes + ":" + seconds);
+    }
+
+    public void handleShortBreakButtonClick(ActionEvent actionEvent) {
+        //TODO: Set the time to the short break time and start counting down
+        secondsLeft = SettingsControl.getInstance().getShortBreakMinutes() * 60;
+        String minutes = Integer.toString(secondsLeft/60);
+        String seconds = Integer.toString(secondsLeft%60);
+        if (secondsLeft/60 < 10){
+            minutes = "0" + minutes;
+        }
+        if (secondsLeft%60 < 10){
+            seconds = "0" + seconds;
+        }
+        timeDisplay.setText(minutes + ":" + seconds);
+    }
+
+    public void handleLongBreakButtonClick(ActionEvent actionEvent) {
+        //TODO: Set the time to the long break time and start counting down
+        secondsLeft = SettingsControl.getInstance().getLongBreakMinutes() * 60;
+        String minutes = Integer.toString(secondsLeft/60);
+        String seconds = Integer.toString(secondsLeft%60);
+        if (secondsLeft/60 < 10){
+            minutes = "0" + minutes;
+        }
+        if (secondsLeft%60 < 10){
+            seconds = "0" + seconds;
+        }
+        timeDisplay.setText(minutes + ":" + seconds);
     }
 }

@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="GUI.SessionScreenController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SessionScreenController">
     <top>
         <HBox alignment="CENTER" style="-fx-spacing: 10; -fx-padding: 5;" BorderPane.alignment="CENTER">
             <children>
-
-                <Label style="-fx-font-size: 1em; -fx-font-family: monospace" text="Pomodoro">
-                    Session Screen
-                </Label>
-
-                <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
-                    Back
-                </Button>
+            <Button mnemonicParsing="false" text="Tomato" onAction="#handleTomatoButtonClick" />
+            <Button mnemonicParsing="false" text="Short Break" onAction="#handleShortBreakButtonClick" />
+            <Button mnemonicParsing="false" text="Long Break" onAction="#handleLongBreakButtonClick" />
             </children>
         </HBox>
     </top>
@@ -27,17 +22,23 @@
             <children>
                 <Label fx:id="timeDisplay" text="00:00">
                     <font>
-                        <Font name="Agency FB" size="82.0"/>
+                        <Font name="Agency FB" size="82.0" />
                     </font>
                 </Label>
             </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
         </HBox>
     </center>
     <bottom>
-        <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-max-height: 35; -fx-padding: 5;"
-              BorderPane.alignment="CENTER">
+        <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-max-height: 35; -fx-padding: 5; -fx-spacing: 10;" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" text="Pause" onAction="#handlePauseButtonClick"/>
+
+                <Button fx:id="backToMainButton" onAction="#handleBackButtonClick" text="Back">
+                    Back
+                </Button>
+                <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#handlePauseButtonClick" text="Go!" />
             </children>
         </HBox>
     </bottom>
