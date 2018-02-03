@@ -1,5 +1,5 @@
 # TomaTimeTrack
-A tomato timer app that tracks, stores and visualises your data locally.
+A tomato timer app for privacy minded people that tracks, stores and visualises your data locally. If at any point this app introduces features that send data off your device, it will be anonymized and used in agregate data accessible to the users.
 
 ### Status:
 Pre-realease development
