@@ -1,6 +1,9 @@
 # TomaTimeTrack
 A Pomodoro Techinque timer app for privacy minded people that tracks, stores and visualises your productivity data locally without associating it with your name or a user account. If at any point this app sends data off your device, it is with your consent, anonymous, and only used in agregate data accessible to you the users.
 
+## Technologies
+We use Java with JavaFX for GUI and SQLite for local data storage.
+
 ### Status:
 Pre-realease development, not yet implementing Data-, API- or Gamification features.
 
