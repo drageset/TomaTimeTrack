@@ -6,11 +6,11 @@ import java.util.Date;
 
 public class DateUtility {
 
-    public static String getDateString(){
+    public static int getDateId(){
 
-        DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         Date date = new Date();
-        String dateString = dateFormat.format(date);
+        int dateString = Integer.parseInt(dateFormat.format(date));
         System.out.println("Date string retrieved: " + dateString);
         return dateString;
     }

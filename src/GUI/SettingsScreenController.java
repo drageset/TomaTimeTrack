@@ -1,12 +1,22 @@
 package GUI;
 
+import Data.DataManager;
+import Data.Settings;
+import Logic.SettingsControl;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 public class SettingsScreenController {
 
     private static int width = CentralGUIControl.DEFAULT_WIDTH, height = CentralGUIControl.DEFAULT_HEIGHT;
     public Button backToMainButton;
+    public CheckBox onTopCheckBox;
+    public CheckBox shareDataCheckBox;
+    public TextField tomatoTimeField;
+    public TextField shortTimeField;
+    public TextField longTimeField;
 
     public static int getWidth() {
         return width;
@@ -26,5 +36,22 @@ public class SettingsScreenController {
 
     public void handleBackButtonClick(ActionEvent actionEvent) {
         Main.showStartScreen();
+    }
+
+    public void handleSaveSettingsButtonClick(ActionEvent actionEvent) {
+        boolean onTop = onTopCheckBox.isSelected();
+        boolean shareData = shareDataCheckBox.isSelected();
+        String tomato = tomatoTimeField.getText();
+        String shortBreak = shortTimeField.getText();
+        String longBreak = longTimeField.getText();
+
+        int tomatoTime = Integer.parseInt(tomato);
+        int shortBreakTime = Integer.parseInt(shortBreak);
+        int longBreakTime = Integer.parseInt(longBreak);
+
+        Settings settings = new Settings(tomatoTime,shortBreakTime,longBreakTime,onTop,shareData);
+
+        DataManager.setSettings(settings);
+
     }
 }

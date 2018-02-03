@@ -8,10 +8,10 @@ import java.sql.Statement;
 
 public class DataManager {
 
-    public void createTables() {
+    public static void createTables() {
         // SQL statement for creating a new table
         String createWorkTable = "CREATE TABLE IF NOT EXISTS work (\n"
-                + "	dd_mm_yy TEXT PRIMARY KEY,\n"
+                + "	date INTEGER PRIMARY KEY,\n"
                 + "	minutes INTEGER,\n"
                 + "	pomodoros INTEGER,\n"
                 + "	blocks INTEGER\n"
@@ -28,8 +28,8 @@ public class DataManager {
                 + "	tomato_minutes INTEGER NOT NULL,\n"
                 + "	short_break_minutes INTEGER NOT NULL,\n"
                 + "	long_break_minutes INTEGER NOT NULL,\n"
-                + "	always_front BOOLEAN NOT NULL,\n"
-                + "	share_data BOOLEAN NOT NULL\n"
+                + "	always_front INTEGER NOT NULL,\n"
+                + "	share_data INTEGER NOT NULL\n"
                 + ");";
 
         try {
@@ -40,11 +40,45 @@ public class DataManager {
             stmt.execute(createSessionTable);
             stmt.execute(createSettingsTable);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            System.err.println("Exception while trying to create tables");
+        }
+
+        Settings settings = getSettings();
+        String insertDefaultSettings = "INSERT INTO settings ( id, tomato_minutes, short_break_minutes, long_break_minutes, always_front, share_data )" +
+                " VALUES ("+
+                " " + 1 + ", " +
+                " " + settings.getTomatoMinutes() + ", " +
+                " " + settings.getShortBreakMinutes() + ", " +
+                " " + settings.getLongBreakMinutes() + ", " +
+                " " + (settings.isAlwaysTop() ? 1 : 0) + ", " +
+                " " + (settings.isShareAnonData() ? 1 : 0) + ");";
+
+        String insertWork = "INSERT INTO work ( date, minutes, pomodoros, blocks )" +
+                " VALUES ("+
+                " " + DateUtility.getDateId() + ", " +
+                " " + 0 + ", " +
+                " " + 0 + ", " +
+                " " + 0 + ");";
+
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.executeUpdate(insertDefaultSettings); //TODO: Only do this if there are no settings in the database from before
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            System.err.println("Exception while trying to insert data into settings");
+        }
+
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.executeUpdate(insertWork);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            System.err.println("Exception while trying to insert data into work ");
         }
     }
 
-    public void clearSession(){
+    public static void clearSession(){
         String clearSession = "DELETE FROM current_session;";
 
         try {
@@ -55,7 +89,7 @@ public class DataManager {
         }
     }
 
-    public void clearWork(){
+    public static void clearWork(){
         String clearWork = "DELETE FROM work;";
 
         try {
@@ -66,15 +100,15 @@ public class DataManager {
         }
     }
 
-    public void clearAll(){
+    public static void clearAll(){
         clearSession();
         clearWork();
     }
 
-    public Work getWork(String ddmmyy){
+    public static Work getWork(int date){
 
         String getWorkQuery = "SELECT minutes, pomodoros, blocks FROM work " +
-                "WHERE id = "+ ddmmyy +";";
+                "WHERE date = "+ date +";";
 
         Work work = null;
         try {
@@ -89,11 +123,11 @@ public class DataManager {
                 int blocks = rs.getInt("blocks");
                 work = new Work(minutes,pomodoros,blocks);
             } else {
-                System.out.println("Work was requested for date "+ddmmyy+" but there was no entry. Return 0 work");
+                System.out.println("Work was requested for date "+date+" but there was no entry. Return 0 work");
                 work = new Work(0,0,0);
             }
             if (rs.next()){
-                throw new Error("There appears to be more than one entry with this id: "+ddmmyy);
+                throw new Error("There appears to be more than one entry with this id: "+date);
             }
 
         } catch (SQLException e) {
@@ -102,13 +136,13 @@ public class DataManager {
         return work;
     }
 
-    public void addWork(Work work){
-        String ddmmyy = DateUtility.getDateString();
+    public static void addWork(Work work){
+        int dateId = DateUtility.getDateId();
         String addWorkQuery = "UPDATE work SET " +
                 "minutes = minutes + " + work.getMinutes() + ", " +
                 "pomodoros = pomodoros + "+ work.getPomodoros() +", " +
                 "blocks = blocks + "+ work.getBlocks() +" " +
-                "WHERE id = "+ ddmmyy +";";
+                "WHERE date = "+ dateId +";";
 
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
@@ -118,7 +152,7 @@ public class DataManager {
         }
     }
 
-    public Settings getSettings(){
+    public static Settings getSettings(){
         Settings settings = null;
 
         String getWorkQuery = "SELECT * FROM settings;";
@@ -148,12 +182,12 @@ public class DataManager {
 
     }
 
-    public void setSettings(Settings settings){
+    public static void setSettings(Settings settings){
         String updateSettingsQuery = "UPDATE settings SET " +
                 "tomato_minutes = " + settings.getTomatoMinutes() + ", " +
                 "short_break_minutes = " + settings.getShortBreakMinutes() + ", " +
-                "long_break_minutes = " + settings.getLongBreakMinutes() +
-                "always_front = " + settings.isAlwaysTop() +
+                "long_break_minutes = " + settings.getLongBreakMinutes() + ", " +
+                "always_front = " + settings.isAlwaysTop() + ", " +
                 "share_data = " + settings.isShareAnonData() + ";";
 
         try {

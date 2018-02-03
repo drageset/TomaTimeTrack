@@ -1,5 +1,6 @@
 package Logic;
 
+import Data.DataManager;
 import Data.Settings;
 
 public class SettingsControl {
@@ -19,6 +20,13 @@ public class SettingsControl {
 
     private SettingsControl() {
         //Get stored settings from the database
+        Settings tempSetting = DataManager.getSettings();
+
+        if (tempSetting != null){
+            settings = DataManager.getSettings();
+        } else { //If no settings are stored, store the default settings
+            DataManager.setSettings(settings);
+        }
     }
 
     public int getShortBreakMinutes() {
@@ -47,5 +55,10 @@ public class SettingsControl {
 
     public void setShareData(boolean shareData) {
         this.shareData = shareData;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+        DataManager.setSettings(settings);
     }
 }

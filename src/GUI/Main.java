@@ -1,5 +1,6 @@
 package GUI;
 
+import Data.DataManager;
 import Logic.SettingsControl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,8 @@ public class Main extends Application {
 
         showStartScreen();
         window.show();
+
+        DataManager.createTables();
 
     }
 
