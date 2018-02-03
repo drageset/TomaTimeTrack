@@ -15,6 +15,6 @@ Pre-realease development, not yet implementing Data-, API- or Gamification featu
 and blocks (4 pomodoros with breaks in between) you complete.
 ### Agreagate Data API
 * Collection of agregate anonymized data to a central database that can be explored and accessed by all users in the app or via an open API
-## Gamification and Goalsetting
+### Gamification and Goalsetting
 * Ability to set perosnal daily and weekly goals that can be achieved
 * Achievements
