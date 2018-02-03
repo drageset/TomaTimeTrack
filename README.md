@@ -4,7 +4,7 @@ A Pomodoro Techinque timer app for privacy minded people that tracks, stores and
 ## Technologies
 We use Java with JavaFX for GUI and SQLite for local data storage.
 
-### Status:
+## Status:
 Pre-realease development, not yet implementing Data-, API- or Gamification features.
 
 ## Planned Features
