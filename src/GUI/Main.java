@@ -1,5 +1,6 @@
 package GUI;
 
+import Logic.SettingsControl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,11 +15,11 @@ public class Main extends Application {
     private static Scene startScreen, sessionScreen, tutorialScreen, settingsScreen;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
 
-        window.setTitle("TomaTimer");
-        window.setAlwaysOnTop(true);
+        window.setTitle("T3");
+        window.setAlwaysOnTop(SettingsControl.getInstance().isAlwaysTop());
         window.setResizable(false);
 
         makeScreens();

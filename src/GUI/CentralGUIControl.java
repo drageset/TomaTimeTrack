@@ -10,7 +10,7 @@ import java.io.IOException;
 public class CentralGUIControl {
 
 
-    static int DEFAULT_WIDTH = 280, DEFAULT_HEIGHT = 200;
+    static int DEFAULT_WIDTH = 290, DEFAULT_HEIGHT = 200;
 
 
     /*

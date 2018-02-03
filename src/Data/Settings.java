@@ -1,7 +1,5 @@
 package Data;
 
-import Logic.SettingsControl;
-
 public class Settings {
 
     // DEFAULT VALUES FOR SETTINGS

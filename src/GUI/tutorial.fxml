@@ -4,13 +4,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox alignment="center" prefHeight="280.0" prefWidth="200.0" spacing="5" xmlns="http://javafx.com/javafx/8.0.121"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TutorialScreenController">
+<VBox alignment="center" prefHeight="200.0" prefWidth="260.0" spacing="5" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TutorialScreenController">
 
-    <TextFlow fx:id="tutorialTextFlow" prefHeight="200.0" prefWidth="200.0"/>
+      <TextFlow fx:id="tutorialTextFlow" prefHeight="100.0" prefWidth="260.0" />
 
-    <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
-        Back
-    </Button>
+      <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
+                Back
+            </Button>
 
-</VBox>
+  </VBox>

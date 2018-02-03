@@ -8,7 +8,6 @@ public class SettingsScreenController {
     private static int width = CentralGUIControl.DEFAULT_WIDTH, height = CentralGUIControl.DEFAULT_HEIGHT;
     public Button backToMainButton;
 
-
     public static int getWidth() {
         return width;
     }

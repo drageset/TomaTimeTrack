@@ -5,8 +5,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
 
 /**
@@ -18,11 +20,20 @@ public class SessionScreenController {
     public Button backToMainButton;
     public Label timeDisplay;
     public Button pauseButton;
+    public ProgressBar progBar;
     private boolean countingDown = false;
+    private int maxSeconds = 25*60;
     private int secondsLeft = 25*60;
     private Timeline timeline;
 
+    @FXML
+    public void initialize() {
+        initializeTimer();
+        refreshTimeDisplay();
+    }
+
     private Timeline initializeTimer() {
+        progBar.progressProperty().setValue((double)secondsLeft/(double)maxSeconds);
         timeline = new Timeline();
         timeline.setCycleCount(secondsLeft);
         KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
@@ -83,17 +94,20 @@ public class SessionScreenController {
     }
 
     public void handleTomatoButtonClick(ActionEvent actionEvent) {
-        secondsLeft = SettingsControl.getInstance().getPomodoroMinutes() * 60;
+        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes() * 60;
+        secondsLeft = maxSeconds;
         refreshTimeDisplay();
     }
 
     public void handleShortBreakButtonClick(ActionEvent actionEvent) {
-        secondsLeft = SettingsControl.getInstance().getShortBreakMinutes() * 60;
+        maxSeconds = SettingsControl.getInstance().getShortBreakMinutes() * 60;
+        secondsLeft = maxSeconds;
         refreshTimeDisplay();
     }
 
     public void handleLongBreakButtonClick(ActionEvent actionEvent) {
-        secondsLeft = SettingsControl.getInstance().getLongBreakMinutes() * 60;
+        maxSeconds = SettingsControl.getInstance().getLongBreakMinutes() * 60;
+        secondsLeft = maxSeconds;
         refreshTimeDisplay();
     }
 
@@ -107,5 +121,6 @@ public class SessionScreenController {
             seconds = "0" + seconds;
         }
         timeDisplay.setText(minutes + ":" + seconds);
+        progBar.progressProperty().setValue((double)secondsLeft/(double)maxSeconds);
     }
 }

@@ -7,35 +7,36 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="280.0" prefWidth="200.0" spacing="5" style="-fx-spacing: 10; -fx-padding: 10;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SettingsScreenController">
-    <CheckBox mnemonicParsing="false" text="Always on Top" />
-   <CheckBox mnemonicParsing="false" text="Share Anonymous Data" />
-   <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
-      <children>
-         <Label text="Tomato" />
-         <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="25" />
-      </children>
-   </HBox>
-   <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
-      <children>
-         <Label text="Short Break" />
-         <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="5" />
-      </children>
-   </HBox>
-   <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
-      <children>
-         <Label text="Long Break" />
-         <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="15" />
-      </children>
-   </HBox>
-   <HBox style="-fx-spacing: 10;">
-      <children>
-      
-          <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
-        Back
-    </Button>
-         <Button mnemonicParsing="false" text="Save" />
-      </children>
-   </HBox>
 
-</VBox>
+  <VBox prefHeight="280.0" prefWidth="300.0" spacing="5" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SettingsScreenController">
+      <CheckBox mnemonicParsing="false" selected="true" text="Always on Top" />
+      <CheckBox mnemonicParsing="false" selected="true" text="Share Anonymous Data" />
+      <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
+          <children>
+              <Label text="Tomato" />
+              <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="25" />
+          </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
+          <children>
+              <Label text="Short Break" />
+              <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="5" />
+          </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10;">
+          <children>
+              <Label text="Long Break" />
+              <TextField alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="105.0" style="-fx-max-width: 45;" text="15" />
+          </children>
+      </HBox>
+      <HBox style="-fx-spacing: 10;">
+          <children>
+
+              <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
+                        Back
+                    </Button>
+              <Button mnemonicParsing="false" text="Save" />
+          </children>
+      </HBox>
+
+  </VBox>
