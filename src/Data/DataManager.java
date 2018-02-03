@@ -23,12 +23,22 @@ public class DataManager {
                 + "	seconds_left INTEGER NOT NULL\n"
                 + ");";
 
+        String createSettingsTable = "CREATE TABLE IF NOT EXISTS settings (\n"
+                + "	id INTEGER PRIMARY KEY,\n"
+                + "	tomato_minutes INTEGER NOT NULL,\n"
+                + "	short_break_minutes INTEGER NOT NULL,\n"
+                + "	long_break_minutes INTEGER NOT NULL,\n"
+                + "	always_front BOOLEAN NOT NULL,\n"
+                + "	share_data BOOLEAN NOT NULL\n"
+                + ");";
+
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
 
             // create new tables
             stmt.execute(createWorkTable);
             stmt.execute(createSessionTable);
+            stmt.execute(createSettingsTable);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -103,6 +113,52 @@ public class DataManager {
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
             stmt.executeUpdate(addWorkQuery);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Settings getSettings(){
+        Settings settings = null;
+
+        String getWorkQuery = "SELECT * FROM settings;";
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.execute(getWorkQuery);
+
+            ResultSet rs = stmt.getResultSet();
+
+            if (rs.next()){
+                int tomatoMinutes = rs.getInt("tomato_minutes");
+                int shortBreakMinutes = rs.getInt("short_break_minutes");
+                int longBreakMinutes = rs.getInt("long_break_minutes");
+                boolean alwaysInFront = rs.getBoolean("always_front");
+                boolean shareData = rs.getBoolean("share_data");
+                settings = new Settings(tomatoMinutes, shortBreakMinutes, longBreakMinutes, alwaysInFront, shareData);
+            } else {
+                System.out.println("Settings were requested from the SQLite table \"settings\", but no entries were found");
+                settings = new Settings(25, 5, 15, true, true);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return settings;
+
+    }
+
+    public void setSettings(Settings settings){
+        String updateSettingsQuery = "UPDATE settings SET " +
+                "tomato_minutes = " + settings.getTomatoMinutes() + ", " +
+                "short_break_minutes = " + settings.getShortBreakMinutes() + ", " +
+                "long_break_minutes = " + settings.getLongBreakMinutes() +
+                "always_front = " + settings.isAlwaysInFront() +
+                "share_data = " + settings.isShareAnonData() + ";";
+
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.executeUpdate(updateSettingsQuery);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
