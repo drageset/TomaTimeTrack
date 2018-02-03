@@ -1,19 +1,38 @@
 package Data;
 
+import Logic.SettingsControl;
+
 public class Settings {
+
+    // DEFAULT VALUES FOR SETTINGS
+    public static final int TOMATO_MINUTES = 25;
+    public static final int SHORT_BREAK_MINUTES = 5;
+    public static final int LONG_BREAK_MINUTES = 15;
+    public static final boolean ALWAYS_TOP = true;
+    public static final boolean SHARE_DATA = true;
+
 
     private int tomatoMinutes;
     private int shortBreakMinutes;
     private int longBreakMinutes;
-    private boolean alwaysInFront;
+    private boolean alwaysTop;
     private boolean shareAnonData;
 
-    public Settings(int tomatoMinutes, int shortBreakMinutes, int longBreakMinutes, boolean alwaysInFront, boolean shareAnonData) {
+    public Settings(int tomatoMinutes, int shortBreakMinutes, int longBreakMinutes, boolean alwaysTop, boolean shareAnonData) {
         this.tomatoMinutes = tomatoMinutes;
         this.shortBreakMinutes = shortBreakMinutes;
         this.longBreakMinutes = longBreakMinutes;
-        this.alwaysInFront = alwaysInFront;
+        this.alwaysTop = alwaysTop;
         this.shareAnonData = shareAnonData;
+    }
+
+    public Settings(){
+        tomatoMinutes = TOMATO_MINUTES;
+        shortBreakMinutes = SHORT_BREAK_MINUTES;
+        longBreakMinutes = LONG_BREAK_MINUTES;
+        alwaysTop = ALWAYS_TOP;
+        shareAnonData = SHARE_DATA;
+
     }
 
     public int getTomatoMinutes() {
@@ -40,12 +59,12 @@ public class Settings {
         this.longBreakMinutes = longBreakMinutes;
     }
 
-    public boolean isAlwaysInFront() {
-        return alwaysInFront;
+    public boolean isAlwaysTop() {
+        return alwaysTop;
     }
 
-    public void setAlwaysInFront(boolean alwaysInFront) {
-        this.alwaysInFront = alwaysInFront;
+    public void setAlwaysTop(boolean alwaysTop) {
+        this.alwaysTop = alwaysTop;
     }
 
     public boolean isShareAnonData() {

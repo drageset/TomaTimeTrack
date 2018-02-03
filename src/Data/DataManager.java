@@ -136,8 +136,8 @@ public class DataManager {
                 boolean shareData = rs.getBoolean("share_data");
                 settings = new Settings(tomatoMinutes, shortBreakMinutes, longBreakMinutes, alwaysInFront, shareData);
             } else {
-                System.out.println("Settings were requested from the SQLite table \"settings\", but no entries were found");
-                settings = new Settings(25, 5, 15, true, true);
+                System.out.println("Settings were requested from the SQLite table \"settings\", but no entries were found. Returning default values.");
+                settings = new Settings();
             }
 
         } catch (SQLException e) {
@@ -153,7 +153,7 @@ public class DataManager {
                 "tomato_minutes = " + settings.getTomatoMinutes() + ", " +
                 "short_break_minutes = " + settings.getShortBreakMinutes() + ", " +
                 "long_break_minutes = " + settings.getLongBreakMinutes() +
-                "always_front = " + settings.isAlwaysInFront() +
+                "always_front = " + settings.isAlwaysTop() +
                 "share_data = " + settings.isShareAnonData() + ";";
 
         try {

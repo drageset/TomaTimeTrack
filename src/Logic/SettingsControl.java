@@ -1,12 +1,15 @@
 package Logic;
 
+import Data.Settings;
+
 public class SettingsControl {
 
-    private int pomodoroMinutes = 25;
-    private int shortBreakMinutes = 5;
-    private int longBreakMinutes = 15;
-    private boolean alwaysTop = true;
-    private boolean shareDate = true;
+    private int pomodoroMinutes = Settings.TOMATO_MINUTES;
+    private int shortBreakMinutes = Settings.SHORT_BREAK_MINUTES;
+    private int longBreakMinutes = Settings.LONG_BREAK_MINUTES;
+    private boolean alwaysTop = Settings.ALWAYS_TOP;
+    private boolean shareData = Settings.SHARE_DATA;
+    private Settings settings = new Settings();
 
     private static SettingsControl ourInstance = new SettingsControl();
 
@@ -28,5 +31,21 @@ public class SettingsControl {
 
     public int getPomodoroMinutes() {
         return pomodoroMinutes;
+    }
+
+    public boolean isAlwaysTop() {
+        return alwaysTop;
+    }
+
+    public void setAlwaysTop(boolean alwaysTop) {
+        this.alwaysTop = alwaysTop;
+    }
+
+    public boolean isShareData() {
+        return shareData;
+    }
+
+    public void setShareData(boolean shareData) {
+        this.shareData = shareData;
     }
 }
