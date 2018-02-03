@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="center" prefHeight="280.0" prefWidth="200.0" spacing="5" style="-fx-background-color: Red;"
+      xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="GUI.StartScreenController">
+
+    <Label fx:id="gameTitleLabel" text="TomaTimer" textFill="WHITE">
+        <font>
+            <Font name="Impact" size="32.0"/>
+        </font>
+    </Label>
+
+    <Button fx:id="newGameButton" onAction="#handleNewSessionButtonClick">
+        New Session
+    </Button>
+
+    <Button fx:id="settingsButton" onAction="#handleSettingsButtonClick">
+        Settings
+    </Button>
+
+    <Button fx:id="tutorialButton" onAction="#handleTutorialButtonClick">
+        Tutorial
+    </Button>
+
+    <Button fx:id="quitGameButton" onAction="#handleQuitGameButtonClick">
+        Quit
+    </Button>
+
+</VBox>

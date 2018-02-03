@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="280.0" prefWidth="200.0" spacing="5" style="-fx-spacing: 10; -fx-padding: 10;"
+      xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="GUI.SettingsScreenController">
+    <CheckBox mnemonicParsing="false" text="Always on Top"/>
+
+    <Button fx:id="backToMainButton" onAction="#handleBackButtonClick">
+        Back
+    </Button>
+
+</VBox>
