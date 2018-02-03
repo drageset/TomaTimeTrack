@@ -12,7 +12,7 @@
         <HBox alignment="CENTER" style="-fx-spacing: 10; -fx-padding: 5;" BorderPane.alignment="CENTER">
             <children>
 
-                <Label fx:id="" style="-fx-font-size: 1em; -fx-font-family: monospace" text="Pomodoro">
+                <Label style="-fx-font-size: 1em; -fx-font-family: monospace" text="Pomodoro">
                     Session Screen
                 </Label>
 
@@ -25,7 +25,7 @@
     <center>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="00:00">
+                <Label fx:id="timeDisplay" text="00:00">
                     <font>
                         <Font name="Agency FB" size="82.0"/>
                     </font>
@@ -37,7 +37,7 @@
         <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-max-height: 35; -fx-padding: 5;"
               BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" text="Pause"/>
+                <Button mnemonicParsing="false" text="Pause" onAction="#handlePauseButtonClick"/>
             </children>
         </HBox>
     </bottom>
