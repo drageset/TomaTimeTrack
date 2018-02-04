@@ -2,6 +2,8 @@ package Logic;
 
 import Data.DataManager;
 import Data.Settings;
+import GUI.Main;
+import GUI.SessionScreenController;
 
 public class SettingsControl {
 
@@ -47,6 +49,7 @@ public class SettingsControl {
 
     public void setAlwaysTop(boolean alwaysTop) {
         this.alwaysTop = alwaysTop;
+        settings.setAlwaysTop(alwaysTop);
     }
 
     public boolean isShareData() {
@@ -55,10 +58,17 @@ public class SettingsControl {
 
     public void setShareData(boolean shareData) {
         this.shareData = shareData;
+        settings.setShareAnonData(shareData);
     }
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+        pomodoroMinutes = settings.getTomatoMinutes();
+        shortBreakMinutes = settings.getShortBreakMinutes();
+        longBreakMinutes = settings.getLongBreakMinutes();
+        alwaysTop = settings.isAlwaysTop();
+        shareData = settings.isShareAnonData();
+        Main.window.setAlwaysOnTop(alwaysTop);
         DataManager.setSettings(settings);
     }
 }

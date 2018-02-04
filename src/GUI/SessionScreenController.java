@@ -25,14 +25,20 @@ public class SessionScreenController {
     public ProgressBar progBar;
     public Button resetButton;
     private boolean countingDown = false;
-    private int maxSeconds = 25*60;
+    private int maxSeconds = SettingsControl.getInstance().getPomodoroMinutes()*60;
     private int secondsLeft = maxSeconds;
     private boolean pomodoroMode = true;
     private int pomodoroCounter = 0;
     private Timeline timeline;
 
+    public void refreshMaxseconds(){
+        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes()*60;
+        refreshTimeDisplay();
+    }
+
     @FXML
     public void initialize() {
+        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes()*60;
         initializeTimer();
         refreshTimeDisplay();
     }
@@ -43,7 +49,7 @@ public class SessionScreenController {
             timeline.stop();
         }
         timeline = new Timeline();
-        timeline.setCycleCount(secondsLeft);
+        timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame frame = new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>(){
 
             /**
@@ -153,12 +159,14 @@ public class SessionScreenController {
 
     void resetSession(){
         //TODO: Reset/null runtime session information
-        pomodoroMode = true;
         pomodoroCounter = 0;
         countingDown = false;
         timeline.stop();
-        pauseButton.setText("Play");
+        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes() * 60;
         secondsLeft = maxSeconds;
+        refreshTimeDisplay();
+        pomodoroMode = true;
+        pauseButton.setText("Play");
         initializeTimer();
         refreshTimeDisplay();
 

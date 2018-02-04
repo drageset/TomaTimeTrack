@@ -51,7 +51,7 @@ public class SettingsScreenController {
 
         Settings settings = new Settings(tomatoTime,shortBreakTime,longBreakTime,onTop,shareData);
 
-        DataManager.setSettings(settings);
+        SettingsControl.getInstance().setSettings(settings);
 
     }
 }

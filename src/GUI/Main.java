@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    private static Stage window;
+    public static Stage window;
     private static Scene startScreen, sessionScreen, tutorialScreen, settingsScreen;
 
     @Override
