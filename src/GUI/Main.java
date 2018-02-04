@@ -13,7 +13,9 @@ import java.io.IOException;
 public class Main extends Application {
 
     public static Stage window;
-    private static Scene startScreen, sessionScreen, tutorialScreen, settingsScreen;
+    private static Scene startScreen, sessionScreen, tutorialScreen, settingsScreen, dataScreen;
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,14 +27,9 @@ public class Main extends Application {
         window.setTitle("T3");
         window.setAlwaysOnTop(SettingsControl.getInstance().isAlwaysTop());
         window.setResizable(false);
-
         makeScreens();
-
         showStartScreen();
         window.show();
-
-
-
     }
 
 
@@ -47,10 +44,16 @@ public class Main extends Application {
             sessionScreen = makeSessionScreen();
             tutorialScreen = makeTutorialScreen();
             settingsScreen = makeSettingsScreen();
+            dataScreen = makeDataScreen();
         } catch (IOException e){
             System.out.println("Main: Failed to make screens!");
             e.printStackTrace();
         }
+    }
+
+    private Scene makeDataScreen() throws IOException  {
+        Parent root = FXMLLoader.load(getClass().getResource("datavisuals.fxml"));
+        return new Scene(root, DataVisualsController.getWidth(), DataVisualsController.getHeight());
     }
 
     private Scene makeSettingsScreen() throws IOException {
@@ -112,4 +115,11 @@ public class Main extends Application {
         return startScreen;
     }
 
+    static Scene getDataScreen() {
+        return dataScreen;
+    }
+
+    public static void showData() {
+        window.setScene(getDataScreen());
+    }
 }

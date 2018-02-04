@@ -15,6 +15,7 @@ public class StartScreenController {
     public Button settingsButton;
     public Button tutorialButton;
     public Button quitGameButton;
+    public Button dataButton;
 
     public void handleNewSessionButtonClick(ActionEvent actionEvent) {
         System.out.println("StartMenu New Session button clicked!");
@@ -52,4 +53,7 @@ public class StartScreenController {
         SessionScreenController.height = height;
     }
 
+    public void handleDataButtonClick(ActionEvent actionEvent) {
+        Main.showData();
+    }
 }
