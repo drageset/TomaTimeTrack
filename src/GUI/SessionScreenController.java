@@ -50,7 +50,7 @@ public class SessionScreenController {
         }
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame frame = new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>(){
+        KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
 
             /**
              * Invoked when a specific event of the type for which this handler is
