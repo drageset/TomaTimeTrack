@@ -37,7 +37,8 @@
                       <Button fx:id="backToMainButton" onAction="#handleBackButtonClick" text="Back">
                     Back
                 </Button>
-                <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#handlePauseButtonClick" text="Go!" />
+                <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#handlePauseButtonClick" style="-fx-min-width: 50;" text="Go!" />
+            <Button fx:id="resetButton" mnemonicParsing="false" text="Save/Reset" onAction="#handleResetButtonClick"/>
                 </children>
         </HBox>
     </bottom>

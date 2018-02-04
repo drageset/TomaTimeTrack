@@ -9,6 +9,8 @@ import java.sql.Statement;
 public class DataManager {
 
     public static void createTables() {
+        SQLiteJDBCDriverConnection connection = SQLiteJDBCDriverConnection.getInstance();
+
         // SQL statement for creating a new table
         String createWorkTable = "CREATE TABLE IF NOT EXISTS work (\n"
                 + "	date INTEGER PRIMARY KEY,\n"
@@ -33,7 +35,7 @@ public class DataManager {
                 + ");";
 
         try {
-            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            Statement stmt = connection.getConnection().createStatement();
 
             // create new tables
             stmt.execute(createWorkTable);
@@ -42,6 +44,8 @@ public class DataManager {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.err.println("Exception while trying to create tables");
+        } finally {
+            connection.close();
         }
 
         Settings settings = getSettings();
@@ -62,19 +66,23 @@ public class DataManager {
                 " " + 0 + ");";
 
         try {
-            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            Statement stmt = connection.getConnection().createStatement();
             stmt.executeUpdate(insertDefaultSettings); //TODO: Only do this if there are no settings in the database from before
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.err.println("Exception while trying to insert data into settings");
+        } finally {
+            connection.close();
         }
 
         try {
-            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            Statement stmt = connection.getConnection().createStatement();
             stmt.executeUpdate(insertWork);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.err.println("Exception while trying to insert data into work ");
+        } finally {
+            connection.close();
         }
     }
 
@@ -84,6 +92,7 @@ public class DataManager {
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
             stmt.execute(clearSession);
+            SQLiteJDBCDriverConnection.getInstance().close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -97,6 +106,8 @@ public class DataManager {
             stmt.execute(clearWork);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
     }
 
@@ -132,12 +143,36 @@ public class DataManager {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
         return work;
     }
 
+    private static void insertWork(int dateId){
+        String insertWork = "INSERT INTO work ( date, minutes, pomodoros, blocks )" +
+                " VALUES ("+
+                " " + dateId + ", " +
+                " " + 0 + ", " +
+                " " + 0 + ", " +
+                " " + 0 + ");";
+
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.executeUpdate(insertWork);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            System.err.println("Exception while trying to insert data into work ");
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
+        }
+    }
+
     public static void addWork(Work work){
+
         int dateId = DateUtility.getDateId();
+        insertWork(dateId);
+
         String addWorkQuery = "UPDATE work SET " +
                 "minutes = minutes + " + work.getMinutes() + ", " +
                 "pomodoros = pomodoros + "+ work.getPomodoros() +", " +
@@ -147,8 +182,11 @@ public class DataManager {
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
             stmt.executeUpdate(addWorkQuery);
+            System.out.println("addWork query executed");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
     }
 
@@ -176,6 +214,8 @@ public class DataManager {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
 
         return settings;
@@ -195,6 +235,8 @@ public class DataManager {
             stmt.executeUpdate(updateSettingsQuery);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
     }
 

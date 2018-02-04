@@ -8,10 +8,11 @@ public class DateUtility {
 
     public static int getDateId(){
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhh");
         Date date = new Date();
         int dateString = Integer.parseInt(dateFormat.format(date));
         System.out.println("Date string retrieved: " + dateString);
         return dateString;
     }
+
 }

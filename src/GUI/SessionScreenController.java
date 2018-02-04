@@ -1,5 +1,7 @@
 package GUI;
 
+import Data.DataManager;
+import Data.Work;
 import Logic.SettingsControl;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,9 +23,12 @@ public class SessionScreenController {
     public Label timeDisplay;
     public Button pauseButton;
     public ProgressBar progBar;
+    public Button resetButton;
     private boolean countingDown = false;
     private int maxSeconds = 25*60;
-    private int secondsLeft = 25*60;
+    private int secondsLeft = maxSeconds;
+    private boolean pomodoroMode = true;
+    private int pomodoroCounter = 0;
     private Timeline timeline;
 
     @FXML
@@ -34,9 +39,12 @@ public class SessionScreenController {
 
     private Timeline initializeTimer() {
         progBar.progressProperty().setValue((double)secondsLeft/(double)maxSeconds);
+        if (timeline != null){
+            timeline.stop();
+        }
         timeline = new Timeline();
         timeline.setCycleCount(secondsLeft);
-        KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>(){
 
             /**
              * Invoked when a specific event of the type for which this handler is
@@ -51,6 +59,9 @@ public class SessionScreenController {
                 if (secondsLeft <= 0){
                     timeline.stop();
                     //TODO: Play alarm sound!
+                    if (pomodoroMode){
+                        pomodoroCounter++;
+                    }
                 }
             }
         });
@@ -59,6 +70,8 @@ public class SessionScreenController {
     }
 
     public void handleBackButtonClick(ActionEvent actionEvent) {
+        //TODO: Save work done this session to database
+        //TODO: Reset/null session information
         Main.showStartScreen();
     }
 
@@ -97,18 +110,21 @@ public class SessionScreenController {
         maxSeconds = SettingsControl.getInstance().getPomodoroMinutes() * 60;
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
+        pomodoroMode = true;
     }
 
     public void handleShortBreakButtonClick(ActionEvent actionEvent) {
         maxSeconds = SettingsControl.getInstance().getShortBreakMinutes() * 60;
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
+        pomodoroMode = false;
     }
 
     public void handleLongBreakButtonClick(ActionEvent actionEvent) {
         maxSeconds = SettingsControl.getInstance().getLongBreakMinutes() * 60;
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
+        pomodoroMode = false;
     }
 
     private void refreshTimeDisplay(){
@@ -122,5 +138,30 @@ public class SessionScreenController {
         }
         timeDisplay.setText(minutes + ":" + seconds);
         progBar.progressProperty().setValue((double)secondsLeft/(double)maxSeconds);
+    }
+
+    public void handleResetButtonClick(ActionEvent actionEvent) {
+        System.out.println("Reset Button clicked!");
+        //TODO: Save work done this session to database
+        if (pomodoroMode){
+            System.out.println("Attempting to add "+ (maxSeconds-secondsLeft)/60 +" minutes of work to the database");
+            DataManager.addWork(new Work((maxSeconds-secondsLeft)/60,pomodoroCounter,pomodoroCounter/4));
+        }
+
+        resetSession();
+    }
+
+    void resetSession(){
+        //TODO: Reset/null runtime session information
+        pomodoroMode = true;
+        pomodoroCounter = 0;
+        countingDown = false;
+        timeline.stop();
+        pauseButton.setText("Play");
+        secondsLeft = maxSeconds;
+        initializeTimer();
+        refreshTimeDisplay();
+
+        //TODO: Reset session information in database
     }
 }

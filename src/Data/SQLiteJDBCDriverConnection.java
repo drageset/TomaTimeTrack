@@ -17,7 +17,7 @@ public class SQLiteJDBCDriverConnection {
     private String url = "jdbc:sqlite:data/database";
 
     /**
-     * Connect to the database
+     * Connect to the database, print, then close connection
      */
     public boolean connect() {
         boolean success = false;
@@ -28,14 +28,14 @@ public class SQLiteJDBCDriverConnection {
             System.out.println("Connection to SQLite has been established.");
             success = true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+                System.err.println(ex.getMessage());
             }
         }
         return success;
@@ -47,7 +47,7 @@ public class SQLiteJDBCDriverConnection {
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return conn;
     }
@@ -58,7 +58,7 @@ public class SQLiteJDBCDriverConnection {
             stmt = getConnection().createStatement();
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return stmt;
     }
