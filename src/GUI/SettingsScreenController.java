@@ -4,6 +4,7 @@ import Data.DataManager;
 import Data.Settings;
 import Logic.SettingsControl;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -17,6 +18,16 @@ public class SettingsScreenController {
     public TextField tomatoTimeField;
     public TextField shortTimeField;
     public TextField longTimeField;
+
+    @FXML
+    public void initialize() {
+        SettingsControl settingsControl = SettingsControl.getInstance();
+        onTopCheckBox.setSelected(settingsControl.isAlwaysTop());
+        shareDataCheckBox.setSelected(settingsControl.isShareData());
+        tomatoTimeField.setText(Integer.toString(settingsControl.getPomodoroMinutes()));
+        shortTimeField.setText(Integer.toString(settingsControl.getShortBreakMinutes()));
+        longTimeField.setText(Integer.toString(settingsControl.getLongBreakMinutes()));
+    }
 
     public static int getWidth() {
         return width;

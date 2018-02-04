@@ -25,8 +25,8 @@ public class SettingsControl {
         Settings tempSetting = DataManager.getSettings();
 
         if (tempSetting != null){
-            settings = DataManager.getSettings();
-        } else { //If no settings are stored, store the default settings
+            settings = tempSetting;
+        } else { //If no old settings are found, store the default settings
             DataManager.setSettings(settings);
         }
     }

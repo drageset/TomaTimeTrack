@@ -227,8 +227,8 @@ public class DataManager {
                 "tomato_minutes = " + settings.getTomatoMinutes() + ", " +
                 "short_break_minutes = " + settings.getShortBreakMinutes() + ", " +
                 "long_break_minutes = " + settings.getLongBreakMinutes() + ", " +
-                "always_front = " + settings.isAlwaysTop() + ", " +
-                "share_data = " + settings.isShareAnonData() + ";";
+                "always_front = " + (settings.isAlwaysTop() ? 1 : 0) + ", " +
+                "share_data = " + (settings.isShareAnonData() ? 1 : 0) + ";";
 
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();

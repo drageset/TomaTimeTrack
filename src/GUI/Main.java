@@ -19,6 +19,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
 
+        DataManager.createTables();
+        SettingsControl.getInstance().setSettings(DataManager.getSettings());
+
         window.setTitle("T3");
         window.setAlwaysOnTop(SettingsControl.getInstance().isAlwaysTop());
         window.setResizable(false);
@@ -28,7 +31,7 @@ public class Main extends Application {
         showStartScreen();
         window.show();
 
-        DataManager.createTables();
+
 
     }
 
