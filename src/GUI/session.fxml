@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SessionScreenController">
+<BorderPane style="-fx-background-color: whitesmoke;" stylesheets="@material.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SessionScreenController">
     <top>
         <HBox alignment="CENTER" style="-fx-spacing: 10; -fx-padding: 8;" BorderPane.alignment="CENTER">
             <children>
@@ -38,7 +38,7 @@
                     Back
                 </Button>
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#handlePauseButtonClick" style="-fx-min-width: 50;" text="Go!" />
-            <Button fx:id="resetButton" mnemonicParsing="false" text="Save/Reset" onAction="#handleResetButtonClick"/>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleResetButtonClick" text="Save/Reset" />
                 </children>
         </HBox>
     </bottom>

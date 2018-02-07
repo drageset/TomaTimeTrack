@@ -73,7 +73,9 @@ public class Main extends Application {
 
     private Scene makeStartScreen() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
-        return new Scene(root, StartScreenController.getWidth(), StartScreenController.getHeight());
+        Scene scene = new Scene(root, StartScreenController.getWidth(), StartScreenController.getHeight());
+        scene.getStylesheets().add(String.valueOf(this.getClass().getResource("material.css")));
+        return scene;
     }
 
     public static Stage getWindow() {

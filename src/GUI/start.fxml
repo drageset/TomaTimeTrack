@@ -6,19 +6,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="280.0" prefWidth="300.0" spacing="5" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.StartScreenController">
+<VBox alignment="CENTER" prefHeight="280.0" prefWidth="300.0" spacing="5" style="-fx-padding: 10; -fx-background-color: whitesmoke;" stylesheets="@material.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.StartScreenController">
 
-    <Label fx:id="gameTitleLabel" alignment="CENTER" text="TomaTimeTrack" textAlignment="CENTER" textFill="#da3838">
+    <Label fx:id="gameTitleLabel" alignment="CENTER" text="TomatoTimeTrack" textAlignment="CENTER">
         <font>
-            <Font name="Monospaced Bold" size="34.0" />
+            <Font name="Monospaced Bold" size="28.0" />
         </font>
     </Label>
    <HBox alignment="CENTER" style="-fx-spacing: 10;">
       <children>
       
-          <Button fx:id="newGameButton" onAction="#handleNewSessionButtonClick" style="-fx-min-width: 80;">
-        Timer
-    </Button>
+          <Button fx:id="newGameButton" onAction="#handleNewSessionButtonClick" style="-fx-min-width: 80;" text="Timer" />
       
           <Button fx:id="settingsButton" onAction="#handleSettingsButtonClick" style="-fx-min-width: 80;">
         Settings

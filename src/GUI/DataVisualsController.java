@@ -15,17 +15,18 @@ public class DataVisualsController {
     private static double width = 400;
     private static double height = 300;
 
+    @FXML
+    public void initialize() {
+        //TODO: Put data in the charts
+
+    }
+
     public static double getWidth() {
         return width;
     }
 
     public static double getHeight() {
         return height;
-    }
-
-    @FXML
-    public void initialize() {
-        //TODO: Put data in the charts
     }
 
     public void handleBackToMainButtonClick(ActionEvent actionEvent) {

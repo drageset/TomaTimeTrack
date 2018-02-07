@@ -9,13 +9,13 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane prefHeight="314.0" prefWidth="401.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DataVisualsController">
+<TabPane prefHeight="314.0" prefWidth="401.0" style="-fx-background-color: whitesmoke;" stylesheets="@material.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DataVisualsController">
   <tabs>
       <Tab text="Menu">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button onAction="#handleBackToMainButtonClick" layoutX="158.0" layoutY="42.0" mnemonicParsing="false" text="Back to Main" />
+                  <Button layoutX="158.0" layoutY="42.0" mnemonicParsing="false" onAction="#handleBackToMainButtonClick" text="Back to Main" />
                   <Button layoutX="161.0" layoutY="184.0" mnemonicParsing="false" text="Delete Data" />
                </children>
             </AnchorPane>
