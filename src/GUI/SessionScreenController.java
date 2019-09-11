@@ -104,7 +104,7 @@ public class SessionScreenController {
 
         if (countingDown){
             timeline.stop();
-            pauseButton.setText("Play");
+            pauseButton.setText("Go!");
         } else {
             timeline.play();
             pauseButton.setText("Pause");
@@ -117,6 +117,8 @@ public class SessionScreenController {
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
         pomodoroMode = true;
+        timeline.play();
+        pauseButton.setText("Pause");
     }
 
     public void handleShortBreakButtonClick(ActionEvent actionEvent) {
@@ -124,6 +126,8 @@ public class SessionScreenController {
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
         pomodoroMode = false;
+        timeline.play();
+        pauseButton.setText("Pause");
     }
 
     public void handleLongBreakButtonClick(ActionEvent actionEvent) {
@@ -131,6 +135,8 @@ public class SessionScreenController {
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
         pomodoroMode = false;
+        timeline.play();
+        pauseButton.setText("Pause");
     }
 
     private void refreshTimeDisplay(){
@@ -166,7 +172,7 @@ public class SessionScreenController {
         secondsLeft = maxSeconds;
         refreshTimeDisplay();
         pomodoroMode = true;
-        pauseButton.setText("Play");
+        pauseButton.setText("Go!");
         initializeTimer();
         refreshTimeDisplay();
 
