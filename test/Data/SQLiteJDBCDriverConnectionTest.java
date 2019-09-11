@@ -8,6 +8,6 @@ class SQLiteJDBCDriverConnectionTest {
 
     @Test
     void connectTest() {
-        assertEquals(true, SQLiteJDBCDriverConnection.getInstance().connect());
+        assertTrue(SQLiteJDBCDriverConnection.getInstance().connect());
     }
 }

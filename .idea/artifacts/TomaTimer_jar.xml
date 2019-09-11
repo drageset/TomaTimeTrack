@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="TomaTimer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TomaTimer_jar</output-path>
+    <root id="archive" name="TomaTimer.jar">
+      <element id="module-output" name="TomaTimer" />
+      <element id="library" level="application" name="sqlite-jdbc-3.27.2.1" />
+      <element id="dir-copy" path="$PROJECT_DIR$/data" />
+      <element id="file-copy" path="$PROJECT_DIR$/data/database" />
+    </root>
+  </artifact>
+</component>
