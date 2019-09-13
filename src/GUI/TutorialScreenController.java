@@ -16,7 +16,12 @@ public class TutorialScreenController implements Initializable {
     @FXML public Button backToMainButton;
     @FXML public TextFlow tutorialTextFlow;
 
-    private String tutorialString = "The Pomodoro Technique is a time management technique that splits work into units of 25 minutes, 5 minute breaks between units. 4 units of work are called a Block. Between blocks we take 15 minutes break. The Pomodoro technique is aimed to enhance concentration, quality and productivity of work.";
+    private String tutorialString = "The Pomodoro Technique is a time management technique that splits work into " +
+            "units of 25 minutes, called Pomodoros.\n " +
+            "We take short breaks (5 minute default) between each Pomodoro.\n " +
+            "4 Pomodoros are called a Block.\n " +
+            "We take long breaks (15 minute default) between blocks.\n " +
+            "The Pomodoro technique is aimed to enhance concentration and productivity, and increase quality of work.";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

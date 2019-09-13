@@ -1,9 +1,7 @@
 package Data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.File;
+import java.sql.*;
 
 public class SQLiteJDBCDriverConnection {
 
@@ -15,6 +13,7 @@ public class SQLiteJDBCDriverConnection {
 
     private Connection conn = null;
     private String url = "jdbc:sqlite:data/database";
+    //private String url = "jdbc:sqlite:data/blabla";
 
     /**
      * Connect to the database, print, then close connection
@@ -23,12 +22,18 @@ public class SQLiteJDBCDriverConnection {
         boolean success = false;
         try {
             // create a connection to the database
+            Class.forName("org.sqlite.JDBC");
+            File file = new File("data/database");
+            System.out.println("data/database exist: "+file.exists());
+
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
             success = true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (conn != null) {
@@ -44,11 +49,25 @@ public class SQLiteJDBCDriverConnection {
     public Connection getConnection() {
         try {
             // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite has been established.");
+            if (conn == null || conn.isClosed()) {
+                File file = new File("data/database");
+                System.out.println("data/database exist: "+file.exists());
+                System.out.println(file.getAbsolutePath());
+
+                File file2 = new File("data/blabla");
+                System.out.println("data/blabla exist: "+file2.exists());
+                System.out.println(file2.getAbsolutePath());
+
+                //Class.forName("org.sqlite.JDBC");
+
+                conn = DriverManager.getConnection(url);
+                System.out.println("Connection to SQLite has been established.");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        }
+        }/* catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
         return conn;
     }
 

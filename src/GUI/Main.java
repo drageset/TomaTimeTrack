@@ -14,15 +14,17 @@ public class Main extends Application {
 
     public static Stage window;
     private static Scene startScreen, sessionScreen, tutorialScreen, settingsScreen, dataScreen;
+    DataManager dataManager;
 
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        dataManager = DataManager.getInstance();
         window = primaryStage;
 
-        DataManager.createTables();
-        SettingsControl.getInstance().setSettings(DataManager.getSettings());
+        dataManager.createTables();
+        SettingsControl.getInstance().setSettings(dataManager.getSettings());
 
         window.setTitle("T3");
         window.setAlwaysOnTop(SettingsControl.getInstance().isAlwaysTop());

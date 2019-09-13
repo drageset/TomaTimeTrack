@@ -3,6 +3,7 @@ package GUI;
 import Data.DataManager;
 import Data.Work;
 import Logic.SettingsControl;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -12,6 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
+
+import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * GUI Controller class for the session screen
@@ -32,7 +36,7 @@ public class SessionScreenController {
     private Timeline timeline;
 
     public void refreshMaxseconds(){
-        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes()*60;
+        maxSeconds = DataManager.getInstance().getSettings().getTomatoMinutes()*60;
         refreshTimeDisplay();
     }
 
@@ -41,6 +45,8 @@ public class SessionScreenController {
         maxSeconds = SettingsControl.getInstance().getPomodoroMinutes()*60;
         initializeTimer();
         refreshTimeDisplay();
+        maxSeconds = DataManager.getInstance().getSettings().getTomatoMinutes()*60;
+        secondsLeft = maxSeconds;
     }
 
     private Timeline initializeTimer() {
@@ -64,15 +70,47 @@ public class SessionScreenController {
                 refreshTimeDisplay();
                 if (secondsLeft <= 0){
                     timeline.stop();
-                    //TODO: Play alarm sound!
+                    alarm();
                     if (pomodoroMode){
                         pomodoroCounter++;
+                        timeline.getCurrentTime().toSeconds();
+                        int minutes = (maxSeconds-secondsLeft)/60;
+                        System.out.println("Attempting to add "+ minutes +" minutes of work to the database");
+                        int blocks = 0;
+                        if (pomodoroCounter/4 > 1) {
+                            blocks = pomodoroCounter / 4;
+                            pomodoroCounter = pomodoroCounter%4;
+                        }
+                        DataManager.addWork(new Work(minutes, 1, blocks));
                     }
+                    secondsLeft = maxSeconds;
                 }
             }
         });
         timeline.getKeyFrames().add(frame);
         return timeline;
+    }
+
+    /**
+     * Make a sound notification to alert to user to the fact that the time has run out
+     */
+    private void alarm(){
+        Toolkit.getDefaultToolkit().beep();
+        /*
+        try {
+
+            Toolkit.getDefaultToolkit().beep();
+            TimeUnit.SECONDS.sleep(1);
+
+            Toolkit.getDefaultToolkit().beep();
+            TimeUnit.SECONDS.sleep(1);
+
+            Toolkit.getDefaultToolkit().beep();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         */
     }
 
     public void handleBackButtonClick(ActionEvent actionEvent) {
@@ -118,6 +156,7 @@ public class SessionScreenController {
         refreshTimeDisplay();
         pomodoroMode = true;
         timeline.play();
+        countingDown = true;
         pauseButton.setText("Pause");
     }
 
@@ -127,6 +166,7 @@ public class SessionScreenController {
         refreshTimeDisplay();
         pomodoroMode = false;
         timeline.play();
+        countingDown = true;
         pauseButton.setText("Pause");
     }
 
@@ -136,6 +176,7 @@ public class SessionScreenController {
         refreshTimeDisplay();
         pomodoroMode = false;
         timeline.play();
+        countingDown = true;
         pauseButton.setText("Pause");
     }
 
@@ -154,12 +195,11 @@ public class SessionScreenController {
 
     public void handleResetButtonClick(ActionEvent actionEvent) {
         System.out.println("Reset Button clicked!");
-        //TODO: Save work done this session to database
         if (pomodoroMode){
-            System.out.println("Attempting to add "+ (maxSeconds-secondsLeft)/60 +" minutes of work to the database");
-            DataManager.addWork(new Work((maxSeconds-secondsLeft)/60,pomodoroCounter,pomodoroCounter/4));
+            int minutes = (maxSeconds-secondsLeft)/60;
+            System.out.println("Attempting to add "+ minutes +" minutes of work to the database");
+            DataManager.addWork(new Work(minutes, 0,0));
         }
-
         resetSession();
     }
 
@@ -168,9 +208,8 @@ public class SessionScreenController {
         pomodoroCounter = 0;
         countingDown = false;
         timeline.stop();
-        maxSeconds = SettingsControl.getInstance().getPomodoroMinutes() * 60;
+        refreshMaxseconds();
         secondsLeft = maxSeconds;
-        refreshTimeDisplay();
         pomodoroMode = true;
         pauseButton.setText("Go!");
         initializeTimer();

@@ -23,7 +23,7 @@ public class SettingsScreenController {
     public void initialize() {
         SettingsControl settingsControl = SettingsControl.getInstance();
         onTopCheckBox.setSelected(settingsControl.isAlwaysTop());
-        shareDataCheckBox.setSelected(settingsControl.isShareData());
+        //shareDataCheckBox.setSelected(settingsControl.isShareData());
         tomatoTimeField.setText(Integer.toString(settingsControl.getPomodoroMinutes()));
         shortTimeField.setText(Integer.toString(settingsControl.getShortBreakMinutes()));
         longTimeField.setText(Integer.toString(settingsControl.getLongBreakMinutes()));
@@ -51,7 +51,8 @@ public class SettingsScreenController {
 
     public void handleSaveSettingsButtonClick(ActionEvent actionEvent) {
         boolean onTop = onTopCheckBox.isSelected();
-        boolean shareData = shareDataCheckBox.isSelected();
+        boolean shareData = false;
+        //boolean shareData = shareDataCheckBox.isSelected();
         String tomato = tomatoTimeField.getText();
         String shortBreak = shortTimeField.getText();
         String longBreak = longTimeField.getText();
@@ -60,7 +61,7 @@ public class SettingsScreenController {
         int shortBreakTime = Integer.parseInt(shortBreak);
         int longBreakTime = Integer.parseInt(longBreak);
 
-        Settings settings = new Settings(tomatoTime,shortBreakTime,longBreakTime,onTop,shareData);
+        Settings settings = new Settings(tomatoTime, shortBreakTime, longBreakTime, onTop, shareData);
 
         SettingsControl.getInstance().setSettings(settings);
 

@@ -22,7 +22,7 @@ public class SettingsControl {
 
     private SettingsControl() {
         //Get stored settings from the database
-        Settings tempSetting = DataManager.getSettings();
+        Settings tempSetting = DataManager.getInstance().getSettings();
 
         if (tempSetting != null){
             settings = tempSetting;

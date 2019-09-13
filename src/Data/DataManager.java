@@ -1,6 +1,6 @@
 package Data;
 
-import Util.DateUtility;
+import Util.DateTimeUtility;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,12 +8,20 @@ import java.sql.Statement;
 
 public class DataManager {
 
-    public static void createTables() {
+    private static DataManager instance;
+
+    public static DataManager getInstance(){
+        if (instance == null)
+            instance = new DataManager();
+        return instance;
+    }
+
+    public void createTables() {
         SQLiteJDBCDriverConnection connection = SQLiteJDBCDriverConnection.getInstance();
 
         // SQL statement for creating a new table
         String createWorkTable = "CREATE TABLE IF NOT EXISTS work (\n"
-                + "	date INTEGER PRIMARY KEY,\n"
+                + "	date_hour INTEGER PRIMARY KEY,\n"
                 + "	minutes INTEGER,\n"
                 + "	pomodoros INTEGER,\n"
                 + "	blocks INTEGER\n"
@@ -49,41 +57,83 @@ public class DataManager {
         }
 
         Settings settings = getSettings();
-        String insertDefaultSettings = "INSERT INTO settings ( id, tomato_minutes, short_break_minutes, long_break_minutes, always_front, share_data )" +
-                " VALUES ("+
-                " " + 1 + ", " +
-                " " + settings.getTomatoMinutes() + ", " +
-                " " + settings.getShortBreakMinutes() + ", " +
-                " " + settings.getLongBreakMinutes() + ", " +
-                " " + (settings.isAlwaysTop() ? 1 : 0) + ", " +
-                " " + (settings.isShareAnonData() ? 1 : 0) + ");";
-
-        String insertWork = "INSERT INTO work ( date, minutes, pomodoros, blocks )" +
-                " VALUES ("+
-                " " + DateUtility.getDateId() + ", " +
-                " " + 0 + ", " +
-                " " + 0 + ", " +
-                " " + 0 + ");";
-
+        boolean settingsExist = false;
+        String getSettingsQuery = "SELECT * FROM settings;";
         try {
-            Statement stmt = connection.getConnection().createStatement();
-            stmt.executeUpdate(insertDefaultSettings); //TODO: Only do this if there are no settings in the database from before
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.execute(getSettingsQuery);
+
+            ResultSet rs = stmt.getResultSet();
+
+            if (rs.next()) {
+                settingsExist = true;
+            }
+
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Exception while trying to insert data into settings");
+            System.out.println(e.getMessage());
         } finally {
-            connection.close();
+            SQLiteJDBCDriverConnection.getInstance().close();
         }
 
-        try {
-            Statement stmt = connection.getConnection().createStatement();
-            stmt.executeUpdate(insertWork);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Exception while trying to insert data into work ");
-        } finally {
-            connection.close();
+        if (!settingsExist){
+            String insertDefaultSettings = "INSERT INTO settings ( id, tomato_minutes, short_break_minutes, long_break_minutes, always_front, share_data )" +
+                    " VALUES ("+
+                    " " + 1 + ", " +
+                    " " + settings.getTomatoMinutes() + ", " +
+                    " " + settings.getShortBreakMinutes() + ", " +
+                    " " + settings.getLongBreakMinutes() + ", " +
+                    " " + (settings.isAlwaysTop() ? 1 : 0) + ", " +
+                    " " + (settings.isShareAnonData() ? 1 : 0) + ");";
+
+            try {
+                Statement stmt = connection.getConnection().createStatement();
+                stmt.executeUpdate(insertDefaultSettings);
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+                System.err.println("Exception while trying to insert data into settings");
+            } finally {
+                connection.close();
+            }
         }
+        boolean workExists = false;
+
+        String workExistQuery = "SELECT * FROM work WHERE date_hour = "+ DateTimeUtility.getDateTimeId()+";";
+
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.execute(workExistQuery);
+
+            ResultSet rs = stmt.getResultSet();
+
+            if (rs.next()) {
+                workExists = true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
+        }
+
+        if (!workExists){
+            String insertWork = "INSERT INTO work ( date_hour, minutes, pomodoros, blocks )" +
+                    " VALUES ("+
+                    " " + DateTimeUtility.getDateTimeId() + ", " +
+                    " " + 0 + ", " +
+                    " " + 0 + ", " +
+                    " " + 0 + ");";
+
+            try {
+                Statement stmt = connection.getConnection().createStatement();
+                stmt.executeUpdate(insertWork);
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+                System.err.println("Exception while trying to insert data into work ");
+            } finally {
+                connection.close();
+            }
+        }
+
     }
 
     public static void clearSession(){
@@ -116,10 +166,10 @@ public class DataManager {
         clearWork();
     }
 
-    public static Work getWork(int date){
+    public static Work getWork(int dateHour){
 
         String getWorkQuery = "SELECT minutes, pomodoros, blocks FROM work " +
-                "WHERE date = "+ date +";";
+                "WHERE date_hour = "+ dateHour +";";
 
         Work work = null;
         try {
@@ -134,11 +184,11 @@ public class DataManager {
                 int blocks = rs.getInt("blocks");
                 work = new Work(minutes,pomodoros,blocks);
             } else {
-                System.out.println("Work was requested for date "+date+" but there was no entry. Return 0 work");
+                System.out.println("Work was requested for date "+dateHour+" but there was no entry. Return 0 work");
                 work = new Work(0,0,0);
             }
             if (rs.next()){
-                throw new Error("There appears to be more than one entry with this id: "+date);
+                throw new Error("There appears to be more than one entry with this id: "+dateHour);
             }
 
         } catch (SQLException e) {
@@ -149,10 +199,10 @@ public class DataManager {
         return work;
     }
 
-    private static void insertWork(int dateId){
-        String insertWork = "INSERT INTO work ( date, minutes, pomodoros, blocks )" +
+    private static void insertWork(int dateHourId){
+        String insertWork = "INSERT INTO work ( date_hour, minutes, pomodoros, blocks )" +
                 " VALUES ("+
-                " " + dateId + ", " +
+                " " + dateHourId + ", " +
                 " " + 0 + ", " +
                 " " + 0 + ", " +
                 " " + 0 + ");";
@@ -170,14 +220,33 @@ public class DataManager {
 
     public static void addWork(Work work){
 
-        int dateId = DateUtility.getDateId();
-        insertWork(dateId);
+        int dateHourId = DateTimeUtility.getDateTimeId();
+        String query = "INSERT OR REPLACE INTO work (date_hour, minutes, pomodoros, blocks)"+
+        "VALUES ( "+dateHourId+", "+
+                "(SELECT minutes FROM work WHERE date_hour = "+dateHourId+") + "+work.getMinutes()+", "+
+                "(SELECT pomodoros FROM work WHERE date_hour = "+dateHourId+") + "+work.getPomodoros()+", "+
+                "(SELECT blocks FROM work WHERE date_hour = "+dateHourId+") + "+work.getBlocks()+
+          ");";
 
+        //String query = "IF NOT EXISTS (SELECT * FROM work WHERE date_hour = " + DateTimeUtility.getDateTimeId() +" ) INSERT INTO work (date_hour, minutes, pomodoros, blocks) VALUES (" + DateTimeUtility.getDateTimeId() + ", " + work.getMinutes() + ", " + work.getPomodoros() + ", "+ work.getBlocks() +");";
+        try {
+            Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
+            stmt.executeUpdate(query);
+            System.out.println("addWork query executed");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            SQLiteJDBCDriverConnection.getInstance().close();
+        }
+
+        /*
         String addWorkQuery = "UPDATE work SET " +
                 "minutes = minutes + " + work.getMinutes() + ", " +
                 "pomodoros = pomodoros + "+ work.getPomodoros() +", " +
                 "blocks = blocks + "+ work.getBlocks() +" " +
-                "WHERE date = "+ dateId +";";
+                "WHERE date_hour = "+ dateHourId +";";
+
+
 
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
@@ -188,15 +257,16 @@ public class DataManager {
         } finally {
             SQLiteJDBCDriverConnection.getInstance().close();
         }
+        */
     }
 
-    public static Settings getSettings(){
+    public Settings getSettings(){
         Settings settings = null;
 
-        String getWorkQuery = "SELECT * FROM settings;";
+        String getSettingsQuery = "SELECT * FROM settings;";
         try {
             Statement stmt = SQLiteJDBCDriverConnection.getInstance().getConnection().createStatement();
-            stmt.execute(getWorkQuery);
+            stmt.execute(getSettingsQuery);
 
             ResultSet rs = stmt.getResultSet();
 
@@ -219,7 +289,6 @@ public class DataManager {
         }
 
         return settings;
-
     }
 
     public static void setSettings(Settings settings){

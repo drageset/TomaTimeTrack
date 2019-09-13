@@ -31,7 +31,7 @@
       </VBox>
     </center>
     <bottom>
-        <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-max-height: 35; -fx-padding: 8; -fx-spacing: 10;" BorderPane.alignment="CENTER">
+        <HBox alignment="BOTTOM_CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-max-height: 35; -fx-padding: 8; -fx-spacing: 10;" BorderPane.alignment="CENTER">
             <children>
 
                       <Button fx:id="backToMainButton" onAction="#handleBackButtonClick" text="Back">
